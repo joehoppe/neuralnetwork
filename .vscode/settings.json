@@ -1,0 +1,7 @@
+{
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "terminal.integrated.env.windows": {
+      "PATH": "${env:PATH};${workspaceFolder}\\node_modules\\.bin"
+    }
+  }
+  
