@@ -1,0 +1,24 @@
+{
+  "name": "neural-network",
+  "version": "0.0.1",
+  "description": "",
+  "main": "bin/index.js",
+  "scripts": {
+    "build": "tsc --noEmit",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tsc": "tsc --init ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joehoppe/neuralnetwork.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/joehoppe/neuralnetwork/issues"
+  },
+  "homepage": "https://github.com/joehoppe/neuralnetwork#readme",
+  "devDependencies": {
+    "typescript": "^5.8.2"
+  }
+}
