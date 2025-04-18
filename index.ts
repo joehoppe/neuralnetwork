@@ -1,0 +1,5 @@
+/*
+    inputs are dynamic
+    weights are set but can be manipulated
+    check against threshold
+*/
