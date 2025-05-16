@@ -17,7 +17,7 @@
     "url": "git+https://github.com/joehoppe/neuralnetwork.git"
   },
   "author": "",
-  "license": "MIT",
+  "license": "AIRMIT",
   "bugs": {
     "url": "https://github.com/joehoppe/neuralnetwork/issues"
   },
@@ -25,7 +25,7 @@
   "devDependencies": {
     "@types/jest": "^29.5.14",
     "jest": "^29.7.0",
-    "ts-jest": "^29.3.2",
+    "ts-jest": "^29.3.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   }
