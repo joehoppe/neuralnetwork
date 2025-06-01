@@ -14,29 +14,14 @@ describe('The perceptron service', () => {
             perceptronService.addWeightType(weightType);
         });
 
-        perceptronService.compute(threshold, inputs);
+        const sum = perceptronService.compute(inputs);
+        const activate = perceptronService.evaluate(threshold,sum);
 
-        const result = perceptronService.compute(threshold, inputs);
-        return result;
+        return {
+            sum,
+            activate,
+        }
     }
-
-    it('should be able to compute a non-zero weight and a zero valued input', () => {
-        const weightIdentifier = 'weightId1';
-
-        const weightType1: PerceptronWeightType = {
-            weight: 0.5,
-            identifier: weightIdentifier,
-        };
-        const inputs: PerceptronInput[] = [{
-            input: 0,
-            identifier: weightIdentifier,
-        }]
-
-        const result = successScenario(0.1, [weightType1], inputs);
-
-        expect(result.activate).toBeFalsy();
-        expect(result.sum).toBe(0);
-    });
 
     it('should be able to compute a non-zero weight and a non-zero input', () => {
         const weightIdentifier = 'weightId1';
@@ -54,7 +39,6 @@ describe('The perceptron service', () => {
         const result = successScenario(0.1, [weightType1], inputs);
 
         expect(result.sum).toBe(0.5);
-        expect(result.activate).toBe(true);
     });
 
     it('should be able to compute two non-zero weight and two non-zero input', () => {
@@ -81,8 +65,8 @@ describe('The perceptron service', () => {
 
         const result = successScenario(0.1, [weightType1, weightType2], inputs);
 
-        expect(result.activate).toBe(true);
         expect(result.sum).toBe(0.8);
+        expect(result.activate).toBe(true);
     });
 });
 

@@ -9,7 +9,7 @@ export class PerceptronService {
         this.#weightTypes.set(weightType.identifier, weightType);
     }
 
-    compute(threshold: number, inputs: PerceptronInput[]) {
+    compute(inputs: PerceptronInput[]) {
         const sum: any = inputs.reduce((agg: any, current) => {
             console.debug('Processing input', current.identifier, current.input);
 
@@ -29,12 +29,13 @@ export class PerceptronService {
             return agg;
         }, 0);
 
+        return sum;
+    }
+
+    evaluate(threshold: number, sum: number) {
         const activate = sum > threshold;
         console.debug('Activation', activate);
 
-        return {
-            sum,
-            activate,
-        }
+        return activate;
     }
 }
