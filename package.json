@@ -6,7 +6,7 @@
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
-    "bin"
+    "dist"
   ],
   "scripts": {
     "build": "tsc --noEmit",
@@ -15,7 +15,8 @@
     "test-watch": "jest --watchAll",
     "test-only-changed": "jest --onlyChanged",
     "test-coverage": "jest --coverage --ci --testLocationInResults",
-    "tsc": "tsc --init ."
+    "tsc": "tsc --init .",
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,9 @@
   },
   "author": "",
   "license": "AIRMIT",
+    "engines": {
+    "node": ">=22.0.0"
+  },
   "bugs": {
     "url": "https://github.com/joehoppe/neuralnetwork/issues"
   },
