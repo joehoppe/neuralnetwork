@@ -1,9 +1,12 @@
+import { ActivationTypeEnum } from "../../activation/models/ActivationTypeEnum";
 import { PerceptronInput } from "../models/PerceptronInput";
 import { PerceptronWeightType } from "../models/PerceptronWeightType";
 
 // A rudimentary implementation of a Perceptron Algorithm
 export class PerceptronService {
     #weightTypes = new Map<string, PerceptronWeightType>;
+
+    constructor(private activationType: ActivationTypeEnum) {}
 
     addWeightType(weightType: PerceptronWeightType){
         this.#weightTypes.set(weightType.identifier, weightType);
@@ -33,9 +36,13 @@ export class PerceptronService {
     }
 
     evaluate(threshold: number, sum: number) {
-        const activate = sum > threshold;
-        console.debug('Activation', activate);
+        if (this.activationType === ActivationTypeEnum.BinaryStep) {
+            const activate = sum > threshold;
+            console.debug('Activation', activate);
+    
+            return activate;
+        }
 
-        return activate;
+        throw Error('Not yet implemented');
     }
 }
