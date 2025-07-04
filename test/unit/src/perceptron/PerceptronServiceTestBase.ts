@@ -1,22 +1,21 @@
-import { ActivationTypeEnum } from "../../../../src/activation/models/ActivationTypeEnum";
+import { IActivate } from "../../../../src/activation/models/IActivate";
 import { PerceptronInput } from "../../../../src/perceptron/models/PerceptronInput";
 import { PerceptronWeightType } from "../../../../src/perceptron/models/PerceptronWeightType";
 import { PerceptronService } from "../../../../src/perceptron/services/PerceptronService";
 
 const successScenario = (
-    threshold: number,
+    iActivate: IActivate,
     weightTypes: PerceptronWeightType[], 
     inputs: PerceptronInput[],
-    activationType: ActivationTypeEnum,
 ) => {
-    const perceptronService = new PerceptronService(activationType);
+    const perceptronService = new PerceptronService(iActivate);
 
     weightTypes.forEach((weightType) => {
         perceptronService.addWeightType(weightType);
     });
 
     const sum = perceptronService.compute(inputs);
-    const activate = perceptronService.evaluate(threshold,sum);
+    const activate = perceptronService.evaluate(sum);
 
     return {
         sum,
@@ -24,7 +23,7 @@ const successScenario = (
     }
 }
 
-export const TestNonZeroWeightAndInput = (activationType: ActivationTypeEnum) => {
+export const TestNonZeroWeightAndInput = (iActivate: IActivate) => {
     const weightIdentifier = 'weightId1';
 
     const weightType1: PerceptronWeightType = {
@@ -37,12 +36,12 @@ export const TestNonZeroWeightAndInput = (activationType: ActivationTypeEnum) =>
         identifier: weightIdentifier,
     }]
 
-    const result = successScenario(0.1, [weightType1], inputs, activationType);
+    const result = successScenario(iActivate, [weightType1], inputs);
 
     expect(result.sum).toBe(0.5);
 }
 
-export const TestTwoNonZeroWeightsAndInputs = (activationType: ActivationTypeEnum) => {
+export const TestTwoNonZeroWeightsAndInputs = (iActivate: IActivate) => {
     const weightIdentifier1 = 'weightId1';
     const weightIdentifier2 = 'weightId2';
 
@@ -64,7 +63,7 @@ export const TestTwoNonZeroWeightsAndInputs = (activationType: ActivationTypeEnu
         identifier: weightIdentifier2,
     }];
 
-    const result = successScenario(0.1, [weightType1, weightType2], inputs, activationType);
+    const result = successScenario(iActivate, [weightType1, weightType2], inputs);
 
     expect(result.sum).toBe(0.8);
     expect(result.activate).toBe(true);

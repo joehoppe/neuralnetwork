@@ -1,4 +1,4 @@
-import { ActivationTypeEnum } from "../../activation/models/ActivationTypeEnum";
+import { IActivate } from "../../activation/models/IActivate";
 import { PerceptronInput } from "../models/PerceptronInput";
 import { PerceptronWeightType } from "../models/PerceptronWeightType";
 
@@ -6,7 +6,7 @@ import { PerceptronWeightType } from "../models/PerceptronWeightType";
 export class PerceptronService {
     #weightTypes = new Map<string, PerceptronWeightType>;
 
-    constructor(private activationType: ActivationTypeEnum) {}
+    constructor(private iActivate: IActivate) {}
 
     addWeightType(weightType: PerceptronWeightType){
         this.#weightTypes.set(weightType.identifier, weightType);
@@ -35,14 +35,11 @@ export class PerceptronService {
         return sum;
     }
 
-    evaluate(threshold: number, sum: number) {
-        if (this.activationType === ActivationTypeEnum.BinaryStep) {
-            const activate = sum > threshold;
-            console.debug('Activation', activate);
-    
-            return activate;
-        }
+    evaluate(sum: number) {
+        const isActivated = this.iActivate.activate(sum);
 
-        throw Error('Not yet implemented');
+        console.debug('Is Activated', isActivated);
+
+        return isActivated
     }
 }

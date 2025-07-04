@@ -1,17 +1,15 @@
-import { ActivationTypeEnum } from "../../../../src/activation/models/ActivationTypeEnum";
 import { TestNonZeroWeightAndInput, TestTwoNonZeroWeightsAndInputs } from "./PerceptronServiceTestBase"
-
-const TEST_CONSTANTS = {
-    activationType: ActivationTypeEnum.BinaryStep,
-}
+import { BinaryStepService } from "../../../../src/activation/services/BinaryStepService";
 
 describe('The perceptron service', () => {
+    const binaryStepService = new BinaryStepService(0.1);
+
     it('should be able to compute a non-zero weight and a non-zero input', () => {
-        TestNonZeroWeightAndInput(TEST_CONSTANTS.activationType);
+        TestNonZeroWeightAndInput(binaryStepService);
     });
 
     it('should be able to compute two non-zero weight and two non-zero input', () => {
-        TestTwoNonZeroWeightsAndInputs(TEST_CONSTANTS.activationType)
+        TestTwoNonZeroWeightsAndInputs(binaryStepService);
     });
 });
 
