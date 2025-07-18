@@ -35,6 +35,6 @@ export const TestTwoNonZeroWeightsAndInputs = (iActivate: IActivate) => {
     const result = successScenario(iActivate, weights, inputFeatures);
 
     expect(result.sum).toBe(0.8);
-    expect(result.activate).toBe(true);
+    expect(result.activate).toBe(1);
 };
 
