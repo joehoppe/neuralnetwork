@@ -1,3 +1,3 @@
 export interface IActivate {
-    activate(...args: any[]): boolean;
+    activate(combinedValue: number): boolean;
 }
