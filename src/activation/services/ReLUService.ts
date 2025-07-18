@@ -1,9 +1,5 @@
 import { IActivate } from "../models/IActivate";
 
-export class BinaryStepService implements IActivate {
-    constructor(private threshold: number) {}
-
-    activate(combinedValue: number) {
-        return Math.max(combinedValue, this.threshold);
-    }
+export class ReLuService implements IActivate {
+    activate = (combinedValue: number) => Math.max(0, combinedValue);
 }
