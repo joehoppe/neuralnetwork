@@ -1,12 +1,12 @@
 import { IActivate } from "../../../../src/activation/models/IActivate";
-import { PerceptronInput } from "../../../../src/perceptron/models/PerceptronInput";
-import { PerceptronWeightType } from "../../../../src/perceptron/models/PerceptronWeightType";
+import { InputFeature } from "../../../../src/perceptron/models/InputFeature";
+import { Weight } from "../../../../src/perceptron/models/Weight";
 import { PerceptronService } from "../../../../src/perceptron/services/PerceptronService";
 
 const successScenario = (
     iActivate: IActivate,
-    weightTypes: PerceptronWeightType[], 
-    inputs: PerceptronInput[],
+    weightTypes: Weight[], 
+    inputs: InputFeature[],
 ) => {
     const perceptronService = new PerceptronService(iActivate);
 
@@ -26,12 +26,12 @@ const successScenario = (
 export const TestNonZeroWeightAndInput = (iActivate: IActivate) => {
     const weightIdentifier = 'weightId1';
 
-    const weightType1: PerceptronWeightType = {
-        weight: 0.5,
+    const weightType1: Weight = {
+        value: 0.5,
         identifier: weightIdentifier,
     };
 
-    const inputs: PerceptronInput[] = [{
+    const inputs: InputFeature[] = [{
         input: 1,
         identifier: weightIdentifier,
     }]
@@ -45,16 +45,16 @@ export const TestTwoNonZeroWeightsAndInputs = (iActivate: IActivate) => {
     const weightIdentifier1 = 'weightId1';
     const weightIdentifier2 = 'weightId2';
 
-    const weightType1: PerceptronWeightType = {
-        weight: 0.8,
+    const weightType1: Weight = {
+        value: 0.8,
         identifier: weightIdentifier1,
     };
-    const weightType2: PerceptronWeightType = {
-        weight: 0.4,
+    const weightType2: Weight = {
+        value: 0.4,
         identifier: weightIdentifier2,
     };
     
-    const inputs: PerceptronInput[] = [{
+    const inputs: InputFeature[] = [{
         input: 1,
         identifier: weightIdentifier1,
     },
