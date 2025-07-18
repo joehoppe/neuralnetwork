@@ -4,27 +4,29 @@ import { IActivate } from "../../activation/models/IActivate";
 export class PerceptronService {
     #weights: number[] | undefined;
 
-    constructor(private iActivate: IActivate) {}
+    constructor(
+        private iActivate: IActivate,
+        // todo: implement bias
+        // private bias: number = 0,   
+    ) {}
 
     setWeights(weights: number[]){
         this.#weights = weights;
     }
 
+    // todo: combine compute and activate
     compute(inputFeatures: number[]) {
         if (!this.#weights) {
             throw new Error('Weights not set');
         };
 
         const combinedValue = this.dotProduct(inputFeatures, this.#weights); 
-        console.debug('Combined Value', combinedValue);
 
         return combinedValue;
     }
 
     evaluate(sum: number) {
         const isActivated = this.iActivate.activate(sum);
-
-        console.debug('Is Activated', isActivated);
 
         return isActivated
     }
