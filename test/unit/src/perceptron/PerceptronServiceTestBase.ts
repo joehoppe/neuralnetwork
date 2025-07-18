@@ -1,20 +1,16 @@
 import { IActivate } from "../../../../src/activation/models/IActivate";
-import { InputFeature } from "../../../../src/perceptron/models/InputFeature";
-import { Weight } from "../../../../src/perceptron/models/Weight";
 import { PerceptronService } from "../../../../src/perceptron/services/PerceptronService";
 
 const successScenario = (
     iActivate: IActivate,
-    weightTypes: Weight[], 
-    inputs: InputFeature[],
+    weights: number[], 
+    inputFeatures: number[],
 ) => {
     const perceptronService = new PerceptronService(iActivate);
+    
+    perceptronService.setWeights(weights);
 
-    weightTypes.forEach((weightType) => {
-        perceptronService.addWeightType(weightType);
-    });
-
-    const sum = perceptronService.compute(inputs);
+    const sum = perceptronService.compute(inputFeatures);
     const activate = perceptronService.evaluate(sum);
 
     return {
@@ -24,46 +20,19 @@ const successScenario = (
 }
 
 export const TestNonZeroWeightAndInput = (iActivate: IActivate) => {
-    const weightIdentifier = 'weightId1';
+    const weight = 0.5;
+    const inputFeature = 1;
 
-    const weightType1: Weight = {
-        value: 0.5,
-        identifier: weightIdentifier,
-    };
-
-    const inputs: InputFeature[] = [{
-        input: 1,
-        identifier: weightIdentifier,
-    }]
-
-    const result = successScenario(iActivate, [weightType1], inputs);
+    const result = successScenario(iActivate, [weight], [inputFeature]);
 
     expect(result.sum).toBe(0.5);
 }
 
 export const TestTwoNonZeroWeightsAndInputs = (iActivate: IActivate) => {
-    const weightIdentifier1 = 'weightId1';
-    const weightIdentifier2 = 'weightId2';
+    const weights = [ 0.8, 0.4];
+    const inputFeatures = [ 1, 0 ];
 
-    const weightType1: Weight = {
-        value: 0.8,
-        identifier: weightIdentifier1,
-    };
-    const weightType2: Weight = {
-        value: 0.4,
-        identifier: weightIdentifier2,
-    };
-    
-    const inputs: InputFeature[] = [{
-        input: 1,
-        identifier: weightIdentifier1,
-    },
-    {
-        input: 0,
-        identifier: weightIdentifier2,
-    }];
-
-    const result = successScenario(iActivate, [weightType1, weightType2], inputs);
+    const result = successScenario(iActivate, weights, inputFeatures);
 
     expect(result.sum).toBe(0.8);
     expect(result.activate).toBe(true);

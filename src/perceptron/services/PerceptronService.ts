@@ -1,38 +1,24 @@
 import { IActivate } from "../../activation/models/IActivate";
-import { InputFeature } from "../models/InputFeature";
-import { Weight } from "../models/Weight";
 
 // A rudimentary implementation of a Perceptron Algorithm
 export class PerceptronService {
-    #weightTypes = new Map<string, Weight>;
+    #weights: number[] | undefined;
 
     constructor(private iActivate: IActivate) {}
 
-    addWeightType(weightType: Weight){
-        this.#weightTypes.set(weightType.identifier, weightType);
+    setWeights(weights: number[]){
+        this.#weights = weights;
     }
 
-    compute(inputs: InputFeature[]) {
-        const sum: any = inputs.reduce((agg: any, current) => {
-            console.debug('Processing input', current.identifier, current.input);
+    compute(inputFeatures: number[]) {
+        if (!this.#weights) {
+            throw new Error('Weights not set');
+        };
 
-            const weight = this.#weightTypes.get(current.identifier)?.value;
-            console.debug('Retrieved weight', weight);
+        const combinedValue = this.dotProduct(inputFeatures, this.#weights); 
+        console.debug('Combined Value', combinedValue);
 
-            if (!weight) {
-                throw new Error("Weight type not found");
-            }
-            
-            const calculated = weight * current.input;
-
-            console.debug('Weight * input', calculated);
-
-            agg += calculated;
-            console.debug('Interum sum', agg);
-            return agg;
-        }, 0);
-
-        return sum;
+        return combinedValue;
     }
 
     evaluate(sum: number) {
@@ -41,5 +27,13 @@ export class PerceptronService {
         console.debug('Is Activated', isActivated);
 
         return isActivated
+    }
+
+    private dotProduct(a: number[], b: number[]){
+        if (a.length !== b.length) {
+            throw new Error('Vectors must have the same length');
+        }
+
+        return a.reduce((sum, val, i) => sum + val * b[i], 0);
     }
 }
