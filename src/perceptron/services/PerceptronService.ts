@@ -14,7 +14,7 @@ export class PerceptronService {
         this.#weights = weights;
     }
 
-    // todo: combine compute and activate
+    // todo: combine compute and activate into a function named predict
     compute(inputFeatures: number[]) {
         if (!this.#weights) {
             throw new Error('Weights not set');
