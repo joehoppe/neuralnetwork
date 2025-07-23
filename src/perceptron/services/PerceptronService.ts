@@ -6,7 +6,7 @@ export class PerceptronService {
 
   constructor(
     private iActivate: IActivate
-    // todo: implement bias
+    // todo: implement bias when not using threshold
     // private bias: number = 0,
   ) {}
 
