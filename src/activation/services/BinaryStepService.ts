@@ -1,9 +1,9 @@
-import { IActivate } from "../models/IActivate";
+import { IActivate } from '../models/IActivate';
 
 export class BinaryStepService implements IActivate {
-    constructor(private threshold: number) {}
+  constructor(private threshold: number) {}
 
-    activate(combinedValue: number) {
-        return (combinedValue > this.threshold) ? 1 : 0;
-    }
+  activate(combinedValue: number) {
+    return combinedValue > this.threshold ? 1 : 0;
+  }
 }
