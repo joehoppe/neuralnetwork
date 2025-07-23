@@ -1,7 +1,17 @@
 {
-    "typescript.tsdk": "node_modules/typescript/lib",
-    "terminal.integrated.env.windows": {
-      "PATH": "${env:PATH};${workspaceFolder}\\node_modules\\.bin"
-    }
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "terminal.integrated.env.windows": {
+    "PATH": "${env:PATH};${workspaceFolder}\\node_modules\\.bin"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
-  
+}
