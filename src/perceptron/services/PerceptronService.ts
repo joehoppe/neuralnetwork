@@ -1,38 +1,49 @@
 import { IActivate } from '../../activation/models/IActivate';
 
-// A rudimentary implementation of a Perceptron Algorithm
 export class PerceptronService {
-  #weights: number[] | undefined;
+  #weights: number[];
 
   constructor(
-    private iActivate: IActivate
+    private activationService: IActivate,
+    inputSize = 0,
     // todo: implement bias when not using threshold
     // private bias: number = 0,
-  ) {}
+  ) {
+    this.#weights =
+      inputSize > 0
+        ? Array(inputSize)
+            .fill(0)
+            .map(() => Math.random() * 2 - 1)
+        : [];
+  }
 
-  setWeights(weights: number[]) {
+  setWeights(weights: number[]): void {
     this.#weights = weights;
   }
 
-  // todo: combine compute and activate into a function named predict
-  compute(inputFeatures: number[]) {
-    if (!this.#weights) {
-      throw new Error('Weights not set');
-    }
-
-    const combinedValue = this.dotProduct(inputFeatures, this.#weights);
-
-    return combinedValue;
+  getWeights(): number[] {
+    return [...this.#weights];
   }
 
-  evaluate(sum: number) {
-    const isActivated = this.iActivate.activate(sum);
+  predict(inputFeatures: number[]): number {
+    if (this.#weights.length === 0) {
+      throw new Error('Weights not set or initialized');
+    }
 
-    return isActivated;
+    if (inputFeatures.length !== this.#weights.length) {
+      throw new Error(
+        `Input features length (${inputFeatures.length}) does not match weights length (${this.#weights.length})`,
+      );
+    }
+
+    const dotProduct = this.dotProduct(inputFeatures, this.#weights);
+
+    console.log(dotProduct);
+    return this.activationService.activate(dotProduct);
   }
 
   // todo: Move to injectable interface IDotProduct
-  private dotProduct(a: number[], b: number[]) {
+  private dotProduct(a: number[], b: number[]): number {
     if (a.length !== b.length) {
       throw new Error('Vectors must have the same length');
     }
