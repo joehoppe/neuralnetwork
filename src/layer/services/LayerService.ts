@@ -7,20 +7,14 @@ export class Layer {
     this.#nodes.push(node);
   }
 
-  predict(inputFeature: [], activatedNodes?: []) {
-    const allActivated = activatedNodes === undefined;
-
+  predict(inputFeature: []): number[] {
     // For each node, execute predict
-    // Return array to indicate which activated
+    // Return result of activation functions to feedforward
     return this.#nodes.reduce((predictions: any, currentPerceptron, index) => {
-      if (allActivated || activatedNodes[index]) {
         const currentPrediction = currentPerceptron.predict(
           inputFeature[index],
         );
         predictions.push(currentPrediction);
-      } else {
-        predictions.push(0);
-      }
     }, [] as number[]);
   }
 }

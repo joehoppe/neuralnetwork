@@ -4,9 +4,11 @@ export class OrchestratorService {
   constructor(private layers: Layer[]) {}
 
   predict(inputFeatures: []) {
-    let activatedNodes = undefined;
-    for (const layer of this.layers) {
-      activatedNodes = layer.predict(inputFeatures, activatedNodes);
-    }
-  }
+    let predictions: number[] = [];
+    this.layers.forEach((layer) => {
+      predictions = layer.predict(inputFeatures);
+    });
+
+    return predictions;
+  };
 }

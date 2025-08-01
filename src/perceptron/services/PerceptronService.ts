@@ -3,6 +3,9 @@ import { IActivate } from '../../activation/models/IActivate';
 export class PerceptronService {
   #weights: number[];
 
+  /* With the exception of the output layer, all layers typically use the same activation function
+    But the output layer can use a different one, such as softmax for classification tasks 
+  */
   constructor(
     private activationService: IActivate,
     inputSize = 0,
