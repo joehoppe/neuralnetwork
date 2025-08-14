@@ -9,7 +9,7 @@ export class PerceptronService {
     But the output layer can use a different one, such as softmax for classification tasks 
   */
   constructor(
-    private activationService: IActivate,
+    public activationService: IActivate,
     inputSize = 0,
     // todo: implement bias when not using threshold
     // private bias: number = 0,
