@@ -5,9 +5,7 @@ export class LoggerService {
 
   private constructor(private logLevel: LogLevelEnum = LogLevelEnum.WARN) {}
 
-  static getInstance(
-    logLevel?: LogLevelEnum,
-  ): LoggerService {
+  static getInstance(logLevel?: LogLevelEnum): LoggerService {
     if (!LoggerService.instance) {
       LoggerService.instance = new LoggerService(logLevel ?? LogLevelEnum.WARN);
     } else if (logLevel !== undefined) {
