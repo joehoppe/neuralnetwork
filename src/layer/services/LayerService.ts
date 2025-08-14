@@ -18,8 +18,6 @@ export class LayerService {
       throw new Error('Layer must have at least one node');
     }
 
-    // For each node, execute predict
-    // Return result of activation functions to feedforward
     return this.#nodes.map(perceptron => {
       const prediction = perceptron.predict(inputFeatures);
       this.#logger.debug(`Prediction Result`, perceptron);

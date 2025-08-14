@@ -12,7 +12,8 @@ export class OrchestratorService {
     this.#logger = LoggerService.getInstance(logLevel);
   }
 
-  predict(inputFeatures: number[]) {
+  // Returns the prediction from the output layer
+  predict(inputFeatures: number[]): number[] {
     let layerPrediction = inputFeatures;
 
     if (this.layers.length === 0) {
@@ -21,6 +22,7 @@ export class OrchestratorService {
 
     for (const layer of this.layers) {
       this.#logger.debug('Executing prediction for layer', layer);
+      // Feed the result from the previous layer into the next
       layerPrediction = layer.predict(layerPrediction);
       this.#logger.debug('Prediction Result', layerPrediction);
     }
