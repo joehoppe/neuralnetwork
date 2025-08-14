@@ -1,20 +1,25 @@
+import { LoggerService } from '../../logger/Services/LoggerService';
 import { PerceptronService } from '../../perceptron/services/PerceptronService';
 
-export class Layer {
-  #nodes: PerceptronService[] = [];
+export class LayerService {
+  #nodes: PerceptronService[];
+  #logger: LoggerService = LoggerService.getInstance();
+
+  constructor(nodes?: PerceptronService[]) {
+    this.#nodes = nodes ?? [];
+  }
 
   addNode(node: PerceptronService) {
     this.#nodes.push(node);
   }
 
-  predict(inputFeature: []): number[] {
+  predict(inputFeatures: number[]): number[] {
     // For each node, execute predict
     // Return result of activation functions to feedforward
-    return this.#nodes.reduce((predictions: any, currentPerceptron, index) => {
-        const currentPrediction = currentPerceptron.predict(
-          inputFeature[index],
-        );
-        predictions.push(currentPrediction);
-    }, [] as number[]);
+    return this.#nodes.map(perceptron => {
+      const prediction = perceptron.predict(inputFeatures);
+      this.#logger.debug(`Prediction Result`, perceptron);
+      return prediction;
+    });
   }
 }

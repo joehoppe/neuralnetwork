@@ -1,14 +1,24 @@
-import { Layer } from '../../layer/services/LayerService';
+import { LayerService } from '../../layer/services/LayerService';
+import { LogLevelEnum } from '../../logger/Models/LogLevelEnum';
+import { LoggerService } from '../../logger/Services/LoggerService';
 
 export class OrchestratorService {
-  constructor(private layers: Layer[]) {}
+  #logger: LoggerService;
 
-  predict(inputFeatures: []) {
-    let predictions: number[] = [];
-    this.layers.forEach((layer) => {
-      predictions = layer.predict(inputFeatures);
-    });
+  constructor(
+    private layers: LayerService[],
+    logLevel: LogLevelEnum = LogLevelEnum.WARN,
+  ) {
+    this.#logger = LoggerService.getInstance(logLevel);
+  }
 
-    return predictions;
-  };
+  predict(inputFeatures: number[]) {
+    let layerPrediction = inputFeatures;
+    for (const layer of this.layers) {
+      this.#logger.debug('Executing prediction for layer', layer);
+      layerPrediction = layer.predict(layerPrediction);
+      this.#logger.debug('Prediction Result', layerPrediction);
+    }
+    return layerPrediction;
+  }
 }
