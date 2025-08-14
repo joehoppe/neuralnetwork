@@ -14,6 +14,10 @@ export class LayerService {
   }
 
   predict(inputFeatures: number[]): number[] {
+    if (this.#nodes.length === 0) {
+      throw new Error('Layer must have at least one node');
+    }
+
     // For each node, execute predict
     // Return result of activation functions to feedforward
     return this.#nodes.map(perceptron => {
