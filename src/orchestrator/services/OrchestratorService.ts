@@ -14,6 +14,11 @@ export class OrchestratorService {
 
   predict(inputFeatures: number[]) {
     let layerPrediction = inputFeatures;
+
+    if (this.layers.length === 0) {
+      throw new Error('Orchestrator must have at least one layer');
+    }
+
     for (const layer of this.layers) {
       this.#logger.debug('Executing prediction for layer', layer);
       layerPrediction = layer.predict(layerPrediction);

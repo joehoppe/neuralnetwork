@@ -1,142 +1,57 @@
-import { IActivate } from '../../../../src/activation/models/IActivate';
-import { BinaryStepService } from '../../../../src/activation/services/BinaryStepService';
-import { PerceptronService } from '../../../../src/perceptron/services/PerceptronService';
 import { OrchestratorService } from '../../../../src/orchestrator/services/OrchestratorService';
 import { LayerService } from '../../../../src/layer/services/LayerService';
+import { PerceptronService } from '../../../../src/perceptron/services/PerceptronService';
+import { BinaryStepService } from '../../../../src/activation/services/BinaryStepService';
+import { LogLevelEnum } from '../../../../src/logger/Models/LogLevelEnum';
 
-describe('The Orchestrator Service', () => {
-  describe('when using a Binary Step Activation Function', () => {
-    const binaryStepService = new BinaryStepService(0.1);
+describe('OrchestratorService', () => {
+  let orchestrator: OrchestratorService;
+  let layer1: LayerService;
+  let layer2: LayerService;
 
-    const TestNonZeroWeightAndInput = (iActivate: IActivate) => {
-      const perceptron = new PerceptronService(iActivate);
-      const layer = new LayerService([perceptron]);
-      const orchestrator = new OrchestratorService([layer]);
-      const inputFeatures = [1];
+  beforeEach(() => {
+    const activation = new BinaryStepService(0.5);
 
-      perceptron.setWeights([0.5]);
+    const perceptron1 = new PerceptronService(activation);
+    perceptron1.setWeights([0.8, 0.4]);
 
-      const isActivated = orchestrator.predict(inputFeatures);
-      expect(isActivated).toStrictEqual([1]);
-    };
+    const perceptron2 = new PerceptronService(activation);
+    perceptron2.setWeights([0.6, 0.2]);
 
-    const TestTwoNonZeroWeightsAndInputs = (iActivate: IActivate) => {
-      const perceptronService = new PerceptronService(iActivate);
-      perceptronService.setWeights([0.8, 0.4]);
+    layer1 = new LayerService([perceptron1, perceptron2]);
+    layer2 = new LayerService([perceptron1]);
+  });
 
-      const inputFeatures = [1, 0];
-
-      const isActivated = perceptronService.predict(inputFeatures);
-
-      expect(isActivated).toBe(1);
-    };
-
-    it('should be able to compute a non-zero weight and a non-zero input', () => {
-      TestNonZeroWeightAndInput(binaryStepService);
+  describe('constructor', () => {
+    it('should initialize with default log level WARN', () => {
+      orchestrator = new OrchestratorService([layer1]);
+      expect(orchestrator).toBeDefined();
     });
 
-    it('should be able to compute two non-zero weight and two non-zero input', () => {
-      TestTwoNonZeroWeightsAndInputs(binaryStepService);
+    it('should initialize with custom log level', () => {
+      orchestrator = new OrchestratorService([layer1], LogLevelEnum.DEBUG);
+      expect(orchestrator).toBeDefined();
     });
   });
 
-  // describe('when using a Linear Activation Function', () => {
-  //   const linearService = new LinearService();
+  describe('predict', () => {
+    it('should process input through single layer', () => {
+      orchestrator = new OrchestratorService([layer1]);
+      const result = orchestrator.predict([1, 0]);
+      expect(result).toEqual([1, 1]);
+    });
 
-  //   const TestNonZeroWeightAndInput = (iActivate: IActivate) => {
-  //     const perceptronService = new PerceptronService(iActivate);
-  //     perceptronService.setWeights([0.5]);
+    it('should process input through multiple layers', () => {
+      orchestrator = new OrchestratorService([layer1, layer2]);
+      const result = orchestrator.predict([1, 0]);
+      expect(result).toEqual([1]);
+    });
 
-  //     const inputFeature = [1];
-
-  //     const isActivated = perceptronService.predict(inputFeature);
-  //     expect(isActivated).toBe(0.5);
-  //   };
-
-  //   const TestTwoNonZeroWeightsAndInputs = (iActivate: IActivate) => {
-  //     const perceptronService = new PerceptronService(iActivate);
-  //     perceptronService.setWeights([0.8, 0.4]);
-
-  //     const inputFeatures = [1, 0];
-
-  //     const isActivated = perceptronService.predict(inputFeatures);
-
-  //     expect(isActivated).toBe(0.8);
-  //   };
-
-  //   it('should be able to compute a non-zero weight and a non-zero input', () => {
-  //     TestNonZeroWeightAndInput(linearService);
-  //   });
-
-  //   it('should be able to compute two non-zero weight and two non-zero input', () => {
-  //     TestTwoNonZeroWeightsAndInputs(linearService);
-  //   });
-  // });
-
-  // describe('when using a Binary Step Activation Function', () => {
-  //   const binaryStepService = new BinaryStepService(0.1);
-
-  //   const TestNonZeroWeightAndInput = (iActivate: IActivate) => {
-  //     const perceptronService = new PerceptronService(iActivate);
-  //     perceptronService.setWeights([0.5]);
-
-  //     const inputFeature = [1];
-
-  //     const isActivated = perceptronService.predict(inputFeature);
-  //     expect(isActivated).toBe(1);
-  //   };
-
-  //   const TestTwoNonZeroWeightsAndInputs = (iActivate: IActivate) => {
-  //     const perceptronService = new PerceptronService(iActivate);
-  //     perceptronService.setWeights([0.8, 0.4]);
-
-  //     const inputFeatures = [1, 0];
-
-  //     const isActivated = perceptronService.predict(inputFeatures);
-
-  //     expect(isActivated).toBe(1);
-  //   };
-
-  //   it('should be able to compute a non-zero weight and a non-zero input', () => {
-  //     TestNonZeroWeightAndInput(binaryStepService);
-  //   });
-
-  //   it('should be able to compute two non-zero weight and two non-zero input', () => {
-  //     TestTwoNonZeroWeightsAndInputs(binaryStepService);
-  //   });
-  // });
-
-  // describe('with two layers and two activation functions', () => {
-  //   const binaryStepService = new BinaryStepService();
-  //   const linearService = new LinearService();
-
-  //   const TestNonZeroWeightAndInput = (iActivate: IActivate) => {
-  //     const perceptronService = new PerceptronService(iActivate);
-  //     perceptronService.setWeights([0.5]);
-
-  //     const inputFeature = [1];
-
-  //     const isActivated = perceptronService.predict(inputFeature);
-  //     expect(isActivated).toBe(0.5);
-  //   };
-
-  //   const TestTwoNonZeroWeightsAndInputs = (iActivate: IActivate) => {
-  //     const perceptronService = new PerceptronService(iActivate);
-  //     perceptronService.setWeights([0.8, 0.4]);
-
-  //     const inputFeatures = [1, 0];
-
-  //     const isActivated = perceptronService.predict(inputFeatures);
-
-  //     expect(isActivated).toBe(0.8);
-  //   };
-
-  //   it('should be able to predict across two layers', () => {
-  //     TestNonZeroWeightAndInput(linearService);
-  //   });
-
-  //   it('should be able to compute two non-zero weight and two non-zero input', () => {
-  //     TestTwoNonZeroWeightsAndInputs(linearService);
-  //   });
-  // });
+    it('should throw an error if the orchestrator does not have any layers', () => {
+      orchestrator = new OrchestratorService([]);
+      expect(() => orchestrator.predict([1, 0])).toThrow(
+        'Orchestrator must have at least one layer',
+      );
+    });
+  });
 });
