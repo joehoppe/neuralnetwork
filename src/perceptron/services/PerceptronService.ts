@@ -1,10 +1,15 @@
 import { IActivate } from '../../activation/models/IActivate';
+import { LoggerService } from '../../logger/Services/LoggerService';
 
 export class PerceptronService {
   #weights: number[];
+  #logger: LoggerService = LoggerService.getInstance();
 
+  /* With the exception of the output layer, all layers typically use the same activation function
+    But the output layer can use a different one, such as softmax for classification tasks 
+  */
   constructor(
-    private activationService: IActivate,
+    public activationService: IActivate,
     inputSize = 0,
     // todo: implement bias when not using threshold
     // private bias: number = 0,
@@ -38,7 +43,10 @@ export class PerceptronService {
 
     const dotProduct = this.dotProduct(inputFeatures, this.#weights);
 
-    console.log(dotProduct);
+    this.#logger.debug(
+      `Dot product: ${dotProduct}, weights: ${this.#weights}, inputFeatures: ${inputFeatures}`,
+    );
+
     return this.activationService.activate(dotProduct);
   }
 
